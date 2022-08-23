@@ -7,6 +7,7 @@ import AllBets from "../components/AllBets";
 import Data from "./Data";
 interface Props {
   cell: string | Sm;
+  key: number;
   setCell: any;
   proportion: number;
   largeCell: Booking[];
@@ -35,6 +36,7 @@ interface Sm {
 
 const Cell: React.FC<Props> = ({
   cell,
+  key,
   setCell,
   proportion,
   largeCell,
