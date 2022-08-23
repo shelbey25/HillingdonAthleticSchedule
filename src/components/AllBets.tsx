@@ -3,7 +3,6 @@ import Image from "next/image";
 import Standout from "./Standout";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import DropDown from "../components/DropDown";
 import Data from "./Data";
 interface Props {}
 

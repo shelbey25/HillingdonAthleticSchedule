@@ -3,15 +3,14 @@ import Image from "next/image";
 import Standout from "./Standout";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import DropDown from "../components/DropDown";
 import AllBets from "../components/AllBets";
 import Data from "./Data";
 import Cell from "./Cell";
 import { Icon } from "@iconify/react";
-import FormDate from "./FormDate";
 
 interface Booking {
   name: string;
+  sideNote: string;
   location: string;
   date: Sm;
 }
