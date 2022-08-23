@@ -98,7 +98,7 @@ const MasterSheet = () => {
           {cells
             .map((row) => [row.name, row.sideNote, row.location, row.date])
             .map((rowType, smId) => (
-              <div className="flex w-full justify-center">
+              <div className="flex w-full justify-center" key={smId}>
                 <div
                   className="flex justify-end items-center"
                   style={{ width: `${5}%` }}
