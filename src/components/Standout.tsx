@@ -83,10 +83,10 @@ const Standout: React.FC<Props> = ({
                 className="flex flex-col tablet:flex-row justify-start"
                 style={{ width: `${600 / 15}%` }}
               >
-                <h1 className="font-bold text-xl text-start text-blue-700 font-bold">
+                <h1 className="font-bold text-base tablet:text-xl text-start overflow-hidden text-blue-700 font-bold">
                   {info.group}
                 </h1>
-                <h1 className="pl-0 pt-1 tablet:pt-0 tablet:pl-4 italic text-xl text-start text-slate-500 font-bold">
+                <h1 className="pl-0 pt-1 tablet:pt-0 tablet:pl-4 italic text-base tablet:text-xl text-start text-slate-500 overflow-hidden font-bold">
                   {info.sideNote}
                 </h1>
               </div>
@@ -95,7 +95,7 @@ const Standout: React.FC<Props> = ({
                 className="flex justify-start"
                 style={{ width: `${200 / 15}%` }}
               >
-                <h1 className="text-xl pl-1 text-start text-blue-700 font-bold">
+                <h1 className="text-base tablet:text-xl pl-1 text-start text-blue-700 font-bold overflow-hidden">
                   {info.month.substring(0, 3)} {info.day}
                 </h1>
               </div>
@@ -103,7 +103,7 @@ const Standout: React.FC<Props> = ({
                 className="flex pl-8 justify-start"
                 style={{ width: `${400 / 15}%` }}
               >
-                <h1 className="text-xl text-start text-blue-700 font-bold">
+                <h1 className="text-base tablet:text-xl text-start text-blue-700 font-bold overflow-hidden">
                   {dayWeek[`${info.date.getDay().toString()}`].substring(0, 3)}{" "}
                   - {info.hour}:{info.minute} {info.dayNight}
                 </h1>
@@ -112,7 +112,7 @@ const Standout: React.FC<Props> = ({
                 className="flex justify-start"
                 style={{ width: `${300 / 15}%` }}
               >
-                <h1 className="pl-1 text-xl text-start text-blue-700 font-bold text-clip overflow-hidden">
+                <h1 className="pl-1 text-base tablet:text-xl text-start text-blue-700 font-bold text-clip overflow-hidden">
                   {info.location}
                 </h1>
               </div>
