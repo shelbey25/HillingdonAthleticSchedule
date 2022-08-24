@@ -44,28 +44,28 @@ const Cell: React.FC<Props> = ({
 }) => {
   const setTheCellParticularly = (cellP: number, switchValue: string) => {
     const exceptCell = largeCell.filter((indiv, index) => smId !== index);
-    const theRow = {
-      name: cellPadding[0],
-      sideNote: cellPadding[1],
-      location: cellPadding[2],
+    const theRow: Booking = {
+      name: cellPadding[0] as string,
+      sideNote: cellPadding[1] as string,
+      location: cellPadding[2] as string,
       date: {
-        date: new Date(cellPadding[3].date),
-        string: cellPadding[3].string,
+        date: new Date((cellPadding[3] as Sm).date),
+        string: (cellPadding[3] as Sm).string,
       },
     };
     if (cellP === 0) {
-      theRow.name = switchValue;
+      theRow.name = switchValue as string;
     } else if (cellP === 1) {
-      theRow.sideNote = switchValue;
+      theRow.sideNote = switchValue as string;
     } else if (cellP === 2) {
-      theRow.location = switchValue;
+      theRow.location = switchValue as string;
     } else {
       theRow.date = { date: new Date(switchValue), string: switchValue };
     }
     exceptCell.splice(smId, 0, theRow);
     setCell(exceptCell);
   };
-  if (smIndex !== 3) {
+  if (typeof cell === "string") {
     return (
       <div
         className="flex flex-wrap bg-slate-50 border-2  border-slate-800 p-1"
