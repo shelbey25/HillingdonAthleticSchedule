@@ -7,7 +7,7 @@ import AllBets from "../components/AllBets";
 import Data from "./Data";
 interface Props {
   cell: string | Sm;
-  setCell: any;
+  setCell: React.Dispatch<React.SetStateAction<Booking[]>>;
   proportion: number;
   largeCell: Booking[];
   smId: number;

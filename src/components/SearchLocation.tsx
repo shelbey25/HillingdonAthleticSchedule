@@ -14,10 +14,19 @@ import {
 interface Props {
   searchLocation: boolean;
   setSearchLocation: any;
-  check: any;
+  check: LocationYesNo[];
   setCheck: any;
-  locations: any;
+  locations: LocationList[];
   setLocations: any;
+}
+
+interface LocationList {
+  name: string;
+}
+
+interface LocationYesNo {
+  name: string;
+  value: boolean;
 }
 
 const SearchLocation: React.FC<Props> = ({
@@ -29,7 +38,7 @@ const SearchLocation: React.FC<Props> = ({
   setLocations,
 }) => {
   const setTheSearch = () => {
-    const smallCheck = [];
+    const smallCheck: LocationYesNo[] = [];
     for (let i = check.length - 1; i > -1; i = i - 1) {
       const temp = { name: check[i].name, value: false };
       smallCheck.splice(0, 0, temp);

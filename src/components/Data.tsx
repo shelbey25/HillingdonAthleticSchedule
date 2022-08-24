@@ -10,8 +10,22 @@ import type { Match } from "./AllBets";
 import SearchLocation from "./SearchLocation";
 
 interface Props {
-  dataSet: any;
+  dataSet: allInfo[];
 }
+
+interface allInfo {
+  location: string;
+  group: string;
+  month: string;
+  year: string;
+  day: string;
+  dayNight: string;
+  hour: string;
+  minute: string;
+  date: Date;
+  sideNote: string;
+}
+
 const Data: React.FC<Props> = ({ dataSet }) => {
   const [search, setSearch] = useState("");
   const [searchLocation, setSearchLocation] = useState(false);

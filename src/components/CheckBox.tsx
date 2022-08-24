@@ -7,10 +7,14 @@ import SearchBar from "./SearchBar";
 import type { Match } from "./AllBets";
 import { XIcon, CheckIcon } from "@heroicons/react/solid";
 interface Props {
-  check: any;
+  check: LocationYesNo[];
   setCheck: any;
   location: string;
   key: string;
+}
+interface LocationYesNo {
+  name: string;
+  value: boolean;
 }
 
 const CheckBox: React.FC<Props> = ({ location, check, setCheck, key }) => {

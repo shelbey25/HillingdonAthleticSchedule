@@ -10,6 +10,19 @@ export interface Match {
   schedule: string;
 }
 
+interface allInfo {
+  location: string;
+  group: string;
+  month: string;
+  year: string;
+  day: string;
+  dayNight: string;
+  hour: string;
+  minute: string;
+  date: Date;
+  sideNote: string;
+}
+
 const AllBets: React.FC<Props> = ({}) => {
   const [data, setData] = useState([
     {
@@ -97,7 +110,7 @@ const AllBets: React.FC<Props> = ({}) => {
       sideNote: "try-out",
     },
   ]);
-  const daysMonth = {
+  const daysMonth: { [index: string]: number } = {
     January: 0,
     February: 31,
     March: 59,
@@ -111,26 +124,15 @@ const AllBets: React.FC<Props> = ({}) => {
     November: 304,
     December: 334,
   };
-  useEffect(() => {
-    setData(
-      data.sort(
-        (firstItem, secondItem) =>
-          Number(firstItem.year) * 365 +
-          Number(firstItem.day) +
-          Number(daysMonth[`${firstItem.month}`]) -
-          (Number(secondItem.year) * 365 +
-            Number(secondItem.day) +
-            Number(daysMonth[`${secondItem.month}`]))
-      )
-    );
-  }, [data]);
-
+  const sortedData = [...data].sort(
+    (firstItem, secondItem) =>
+      firstItem.date.getTime() - secondItem.date.getTime()
+  );
   return (
     <div className="flex flex-col w-full allign-center justify-center">
-      {console.log({ data })}
       {data && (
         <div className="w-full">
-          <Data dataSet={data} />
+          <Data dataSet={sortedData} />
         </div>
       )}
     </div>

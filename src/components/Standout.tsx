@@ -11,7 +11,7 @@ import { Icon } from "@iconify/react";
 interface Props {
   info: any;
   search: string;
-  check: any;
+  check: LocationYesNo[];
   searchLocation: boolean;
   day: string;
   month: string;
@@ -20,6 +20,11 @@ interface Props {
   minutes: string;
   nightDay: string;
   key: string;
+}
+
+interface LocationYesNo {
+  name: string;
+  value: boolean;
 }
 
 const Standout: React.FC<Props> = ({
@@ -47,7 +52,7 @@ const Standout: React.FC<Props> = ({
   const logo = (sport: string) => {
     return info.group.toUpperCase().includes(sport.toUpperCase());
   };
-  const dayWeek = {
+  const dayWeek: { [index: string]: string } = {
     "0": "Sunday",
     "1": "Monday",
     "2": "Tuesday",
