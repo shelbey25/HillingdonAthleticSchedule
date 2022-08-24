@@ -86,7 +86,7 @@ const Standout: React.FC<Props> = ({
                 <h1 className="font-bold text-base tablet:text-xl text-start text-blue-700 font-bold">
                   {info.group}
                 </h1>
-                <h1 className="pl-0 pt-1 tablet:pt-0 tablet:pl-4 italic text-base tablet:text-xl text-start text-slate-500 font-bold">
+                <h1 className="pl-0 align-middle pt-1 tablet:pt-0 tablet:pl-4 italic text-base tablet:text-xl text-start text-slate-500 font-bold">
                   {info.sideNote}
                 </h1>
               </div>
