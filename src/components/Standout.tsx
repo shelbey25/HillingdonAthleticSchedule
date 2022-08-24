@@ -112,7 +112,7 @@ const Standout: React.FC<Props> = ({
                 className="flex justify-start"
                 style={{ width: `${300 / 15}%` }}
               >
-                <h1 className="pl-1 text-xl text-start text-blue-700 font-bold">
+                <h1 className="pl-1 text-xl text-start text-blue-700 font-bold text-clip overflow-hidden">
                   {info.location}
                 </h1>
               </div>
