@@ -4,20 +4,16 @@ import { prisma } from "@/backend/utils/prisma";
 
 export const appRouter = trpc
   .router()
-  .query("hello", {
-    input: z
-      .object({
-        text: z.string().nullish(),
-      })
-      .nullish(),
+  .query("returnEvents", {
     resolve({ input }) {
       return {
-        greeting: `hello ${input?.text ?? "world"}`,
+        events: prisma.event.findMany(),
       };
     },
   })
-  .mutation("add-event", {
+  .mutation("modify-event", {
     input: z.object({
+      id: z.number(),
       group: z.string(),
       sidenote: z.string(),
       location: z.string(),
@@ -25,12 +21,28 @@ export const appRouter = trpc
       datetimedate: z.date(),
     }),
     async resolve({ input }) {
-      const eventInDb = await prisma.event.create({
+      const { id, ...rest } = input;
+      const modEventInDb = await prisma.event.update({
+        where: { id },
         data: {
-          ...input,
+          ...rest,
         },
       });
-      return { success: true, event: eventInDb };
+      return { success: true, modEvent: modEventInDb };
+    },
+  })
+  .mutation("add-event", {
+    async resolve({ input }) {
+      const addEventInDb = await prisma.event.create({
+        data: {
+          group: "",
+          sidenote: "",
+          location: "",
+          datetimestring: "2022-12-30T12:15:00.000",
+          datetimedate: new Date("2022-12-30T12:15:00.000Z"),
+        },
+      });
+      return { success: true, addEvent: addEventInDb };
     },
   });
 

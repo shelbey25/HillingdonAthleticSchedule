@@ -7,6 +7,7 @@ import AllBets from "../components/AllBets";
 import Data from "./Data";
 import Cell from "./Cell";
 import { Icon } from "@iconify/react";
+import { trpc } from "@/utils/trpc";
 
 interface Booking {
   name: string;
@@ -43,6 +44,8 @@ const MasterSheet = () => {
   const proportion = [25, 25, 25, 25];
   console.log(cells);
   const addACell = () => {
+    const addAnEvent = trpc.useMutation("add-event");
+    addAnEvent.mutate();
     setCells([
       ...cells,
       {
@@ -50,7 +53,7 @@ const MasterSheet = () => {
         sideNote: "",
         location: "",
         date: {
-          date: new Date("2099-12-30T12:15:00.000Z"),
+          date: new Date("2022-12-30T12:15:00.000Z"),
           string: "2022-12-30T12:15:00.000",
         },
       },

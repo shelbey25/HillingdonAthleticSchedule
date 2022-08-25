@@ -5,7 +5,7 @@ import Master from "../components/Master";
 import { trpc } from "@/utils/trpc";
 
 export default function IndexPage() {
-  const { data, isLoading } = trpc.useQuery(["hello", { text: "Shelbe" }]);
+  const { data, isLoading } = trpc.useQuery(["returnEvents"]);
   /*if (isLoading) {
     return <div>Loading</div>;
   }
