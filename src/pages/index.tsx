@@ -6,12 +6,12 @@ import { trpc } from "@/utils/trpc";
 
 export default function IndexPage() {
   const { data, isLoading } = trpc.useQuery(["hello", { text: "Shelbe" }]);
-  if (isLoading) {
+  /*if (isLoading) {
     return <div>Loading</div>;
   }
   if (data) {
     return <div>{data.greeting}</div>;
-  }
+  }*/
   return (
     <div className="flex items-start w-screen h-max min-h-screen bg-blue-700 pt-4">
       <div className="flex flex-col items-center justify-start w-full">
