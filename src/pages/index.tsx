@@ -2,12 +2,16 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import AllBets from "../components/AllBets";
 import Master from "../components/Master";
+import { trpc } from "@/utils/trpc";
 
 export default function IndexPage() {
-  const [drop, setDrop] = useState(false);
-  const dropDown = () => {
-    setDrop(!drop);
-  };
+  const { data, isLoading } = trpc.useQuery(["hello", { text: "Shelbe" }]);
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
+  if (data) {
+    return <div>{data.greeting}</div>;
+  }
   return (
     <div className="flex items-start w-screen h-max min-h-screen bg-blue-700 pt-4">
       <div className="flex flex-col items-center justify-start w-full">
