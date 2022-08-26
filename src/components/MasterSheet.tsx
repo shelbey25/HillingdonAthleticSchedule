@@ -1,58 +1,20 @@
 import React from "react";
-import Image from "next/image";
-import Standout from "./Standout";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import AllBets from "../components/AllBets";
-import Data from "./Data";
-import Cell from "./Cell";
 import { Icon } from "@iconify/react";
 import { trpc } from "@/utils/trpc";
+import { Event } from "@prisma/client";
+import StringCell from "./cells/StringCell";
+import DateCell from "./cells/DateCell";
 
-interface Booking {
-  name: string;
-  sideNote: string;
-  location: string;
-  date: Sm;
-}
-interface Sm {
-  date: Date;
-  string: string;
-}
-/*{
-      name: "Varsity Boys Basketball",
-      sideNote: "try-out",
-      location: "Farmer Gym",
-      date: {
-        date: new Date("2022-04-13T12:15:00.000Z"),
-        string: "2022-04-13T12:15:00.000",
-      },
-    },
-    {
-      name: "JV Boys Basketball",
-      sideNote: "try-out",
-      location: "Blue Gym",
-      date: {
-        date: new Date("2024-04-13T12:15:00.000Z"),
-        string: "2024-04-13T12:15:00.000",
-      },
-    }, */
 const MasterSheet = () => {
-  const [cells, setCells] = useState<Booking[]>([]);
   const proportion = [25, 25, 25, 25];
-  const { data, refetch } = trpc.useQuery(["returnEvents"]);
-  const addAnEvent = trpc.useMutation(["add-event"]);
-  const removeAnEvent = trpc.useMutation(["remove-event"]);
+  const { data, refetch } = trpc.useQuery(["event.all"]);
+  const addEvent = trpc.useMutation(["event.create"]);
+
   if (!data) return null;
   console.log({ data });
 
-  const addACell = async () => {
-    await addAnEvent.mutate();
-    refetch();
-  };
-
-  const removeACell = async (smId: number) => {
-    await removeAnEvent.mutate({ id: smId });
+  const addRow = async () => {
+    await addEvent.mutateAsync();
     refetch();
   };
 
@@ -89,53 +51,14 @@ const MasterSheet = () => {
         </div>
 
         <div className="flex flex-col w-full">
-          {data
-            .map((row) => [
-              row.group,
-              row.sidenote,
-              row.location,
-              {
-                date: row.datetimedate,
-                string: row.datetimestring,
-              },
-            ])
-            .map((rowType, smId) => (
-              <div className="flex w-full justify-center" key={smId}>
-                <div
-                  className="flex justify-end items-center"
-                  style={{ width: `${5}%` }}
-                >
-                  <button
-                    className="p-2"
-                    onClick={() => removeACell(data[smId].id)}
-                  >
-                    <Icon
-                      icon="ant-design:minus-circle-twotone"
-                      className="w-12 h-12 text-rose-600"
-                    />
-                  </button>
-                </div>
-                <div
-                  className="flex justify-center"
-                  style={{ width: `${95}%` }}
-                >
-                  {rowType.map((cell, index) => (
-                    <Cell
-                      cell={cell}
-                      key={index}
-                      proportion={proportion[index]}
-                      idDatabase={data[smId].id}
-                      smIndex={index}
-                      cellPadding={rowType}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
+          {data.map((row) => (
+            <Row data={row} key={row.id} refetch={refetch} />
+          ))}
         </div>
       </div>
+
       <div className="w-full flex justify-center">
-        <button onClick={() => addACell()}>
+        <button onClick={() => addRow()}>
           <Icon
             icon="ant-design:plus-circle-twotone"
             className="w-28 h-28 text-lime-600"
@@ -147,3 +70,68 @@ const MasterSheet = () => {
 };
 
 export default MasterSheet;
+
+const Row: React.FC<{ data: Event; refetch: () => void }> = ({
+  data,
+  refetch,
+}) => {
+  const deleteEvent = trpc.useMutation(["event.delete"]);
+  const updateEvent = trpc.useMutation(["event.update"]);
+
+  const removeRow = async () => {
+    await deleteEvent.mutateAsync({ id: data.id });
+    refetch();
+  };
+
+  const updateGroup = async (group: string) => {
+    await updateEvent.mutateAsync({ ...data, group });
+    refetch();
+  };
+
+  const updateLocation = async (location: string) => {
+    await updateEvent.mutateAsync({ ...data, location });
+    refetch();
+  };
+
+  const updateSidenote = async (sidenote: string) => {
+    await updateEvent.mutateAsync({ ...data, sidenote });
+    refetch();
+  };
+
+  const updateDate = async (date: Date) => {
+    console.log(date);
+    await updateEvent.mutateAsync({ ...data, datetimedate: date });
+    refetch();
+  };
+
+  return (
+    <div className="flex w-full justify-center">
+      <div className="flex justify-end items-center" style={{ width: `${5}%` }}>
+        <button className="p-2" onClick={removeRow}>
+          <Icon
+            icon="ant-design:minus-circle-twotone"
+            className="w-12 h-12 text-rose-600"
+          />
+        </button>
+      </div>
+      <div className="flex justify-center" style={{ width: `${95}%` }}>
+        <StringCell value={data.group} percentage={25} setValue={updateGroup} />
+        <StringCell
+          value={data.sidenote}
+          percentage={25}
+          setValue={updateSidenote}
+        />
+        <StringCell
+          value={data.location}
+          percentage={25}
+          setValue={updateLocation}
+        />
+        <DateCell
+          value={data.datetimedate}
+          percentage={25}
+          setValue={updateDate}
+        />
+      </div>
+    </div>
+  );
+};
