@@ -5,12 +5,11 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import AllBets from "../components/AllBets";
 import Data from "./Data";
+import { trpc } from "@/utils/trpc";
 interface Props {
   cell: string | Sm;
-  setCell: React.Dispatch<React.SetStateAction<Booking[]>>;
   proportion: number;
-  largeCell: Booking[];
-  smId: number;
+  idDatabase: number;
   smIndex: number;
   cellPadding: (string | Sm)[];
 }
@@ -35,35 +34,50 @@ interface Sm {
 
 const Cell: React.FC<Props> = ({
   cell,
-  setCell,
   proportion,
-  largeCell,
-  smId,
+  idDatabase,
   smIndex,
   cellPadding,
 }) => {
-  const setTheCellParticularly = (cellP: number, switchValue: string) => {
-    const exceptCell = largeCell.filter((indiv, index) => smId !== index);
-    const theRow: Booking = {
-      name: cellPadding[0] as string,
-      sideNote: cellPadding[1] as string,
-      location: cellPadding[2] as string,
-      date: {
-        date: new Date((cellPadding[3] as Sm).date),
-        string: (cellPadding[3] as Sm).string,
-      },
-    };
+  const modifyAnEvent = trpc.useMutation(["modify-event"]);
+  const setTheCellParticularly = async (cellP: number, switchValue: string) => {
     if (cellP === 0) {
-      theRow.name = switchValue as string;
+      await modifyAnEvent.mutate({
+        id: idDatabase,
+        group: switchValue,
+        sidenote: cellPadding[1] as string,
+        location: cellPadding[2] as string,
+        datetimedate: new Date((cellPadding[3] as Sm).date),
+        datetimestring: (cellPadding[3] as Sm).string,
+      });
     } else if (cellP === 1) {
-      theRow.sideNote = switchValue as string;
+      await modifyAnEvent.mutate({
+        id: idDatabase,
+        group: cellPadding[0] as string,
+        sidenote: switchValue,
+        location: cellPadding[2] as string,
+        datetimedate: new Date((cellPadding[3] as Sm).date),
+        datetimestring: (cellPadding[3] as Sm).string,
+      });
     } else if (cellP === 2) {
-      theRow.location = switchValue as string;
+      await modifyAnEvent.mutate({
+        id: idDatabase,
+        group: cellPadding[0] as string,
+        sidenote: cellPadding[1] as string,
+        location: switchValue,
+        datetimedate: new Date((cellPadding[3] as Sm).date),
+        datetimestring: (cellPadding[3] as Sm).string,
+      });
     } else {
-      theRow.date = { date: new Date(switchValue), string: switchValue };
+      await modifyAnEvent.mutate({
+        id: idDatabase,
+        group: cellPadding[0] as string,
+        sidenote: cellPadding[1] as string,
+        location: cellPadding[2] as string,
+        datetimedate: new Date(switchValue),
+        datetimestring: switchValue,
+      });
     }
-    exceptCell.splice(smId, 0, theRow);
-    setCell(exceptCell);
   };
   if (typeof cell === "string") {
     return (

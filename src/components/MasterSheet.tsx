@@ -40,31 +40,20 @@ interface Sm {
 const MasterSheet = () => {
   const [cells, setCells] = useState<Booking[]>([]);
   const proportion = [25, 25, 25, 25];
-  const { data } = trpc.useQuery(["returnEvents"]);
+  const { data, refetch } = trpc.useQuery(["returnEvents"]);
   const addAnEvent = trpc.useMutation(["add-event"]);
   const removeAnEvent = trpc.useMutation(["remove-event"]);
   if (!data) return null;
   console.log({ data });
-  const addACell = () => {
-    addAnEvent.mutate();
-    setCells([
-      ...cells,
-      {
-        name: "",
-        sideNote: "",
-        location: "",
-        date: {
-          date: new Date("2022-12-30T12:15:00.000Z"),
-          string: "2022-12-30T12:15:00.000",
-        },
-      },
-    ]);
+
+  const addACell = async () => {
+    await addAnEvent.mutate();
+    refetch();
   };
 
-  const removeACell = (smId: number) => {
-    removeAnEvent.mutate({ id: smId + 1 });
-    const exceptCell = cells.filter((indiv, index) => smId !== index);
-    setCells(exceptCell);
+  const removeACell = async (smId: number) => {
+    await removeAnEvent.mutate({ id: smId });
+    refetch();
   };
 
   return (
@@ -100,15 +89,26 @@ const MasterSheet = () => {
         </div>
 
         <div className="flex flex-col w-full">
-          {cells
-            .map((row) => [row.name, row.sideNote, row.location, row.date])
+          {data
+            .map((row) => [
+              row.group,
+              row.sidenote,
+              row.location,
+              {
+                date: row.datetimedate,
+                string: row.datetimestring,
+              },
+            ])
             .map((rowType, smId) => (
               <div className="flex w-full justify-center" key={smId}>
                 <div
                   className="flex justify-end items-center"
                   style={{ width: `${5}%` }}
                 >
-                  <button className="p-2" onClick={() => removeACell(smId)}>
+                  <button
+                    className="p-2"
+                    onClick={() => removeACell(data[smId].id)}
+                  >
                     <Icon
                       icon="ant-design:minus-circle-twotone"
                       className="w-12 h-12 text-rose-600"
@@ -123,10 +123,8 @@ const MasterSheet = () => {
                     <Cell
                       cell={cell}
                       key={index}
-                      setCell={setCells}
                       proportion={proportion[index]}
-                      largeCell={cells}
-                      smId={smId}
+                      idDatabase={data[smId].id}
                       smIndex={index}
                       cellPadding={rowType}
                     />
