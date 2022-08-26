@@ -5,10 +5,8 @@ import { prisma } from "@/backend/utils/prisma";
 export const appRouter = trpc
   .router()
   .query("returnEvents", {
-    resolve({ input }) {
-      return {
-        events: prisma.event.findMany(),
-      };
+    resolve() {
+      return prisma.event.findMany();
     },
   })
   .mutation("modify-event", {
@@ -32,7 +30,8 @@ export const appRouter = trpc
     },
   })
   .mutation("add-event", {
-    async resolve({ input }) {
+    async resolve() {
+      console.log("event added");
       const addEventInDb = await prisma.event.create({
         data: {
           group: "",
@@ -43,6 +42,20 @@ export const appRouter = trpc
         },
       });
       return { success: true, addEvent: addEventInDb };
+    },
+  })
+  .mutation("remove-event", {
+    input: z.object({
+      id: z.number(),
+    }),
+    async resolve({ input }) {
+      const { id } = input;
+      const removeEventInDb = await prisma.event.deleteMany({
+        where: {
+          id: id,
+        },
+      });
+      return { success: true, removeEvent: removeEventInDb };
     },
   });
 

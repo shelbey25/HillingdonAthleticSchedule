@@ -19,10 +19,7 @@ interface Sm {
   date: Date;
   string: string;
 }
-
-const MasterSheet = () => {
-  const [cells, setCells] = useState<Booking[]>([
-    {
+/*{
       name: "Varsity Boys Basketball",
       sideNote: "try-out",
       location: "Farmer Gym",
@@ -39,12 +36,16 @@ const MasterSheet = () => {
         date: new Date("2024-04-13T12:15:00.000Z"),
         string: "2024-04-13T12:15:00.000",
       },
-    },
-  ]);
+    }, */
+const MasterSheet = () => {
+  const [cells, setCells] = useState<Booking[]>([]);
   const proportion = [25, 25, 25, 25];
-  console.log(cells);
+  const { data } = trpc.useQuery(["returnEvents"]);
+  const addAnEvent = trpc.useMutation(["add-event"]);
+  const removeAnEvent = trpc.useMutation(["remove-event"]);
+  if (!data) return null;
+  console.log({ data });
   const addACell = () => {
-    const addAnEvent = trpc.useMutation("add-event");
     addAnEvent.mutate();
     setCells([
       ...cells,
@@ -61,6 +62,7 @@ const MasterSheet = () => {
   };
 
   const removeACell = (smId: number) => {
+    removeAnEvent.mutate({ id: smId + 1 });
     const exceptCell = cells.filter((indiv, index) => smId !== index);
     setCells(exceptCell);
   };

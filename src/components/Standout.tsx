@@ -19,7 +19,6 @@ interface Props {
   hour: string;
   minutes: string;
   nightDay: string;
-  key: string;
 }
 
 interface LocationYesNo {
@@ -38,7 +37,6 @@ const Standout: React.FC<Props> = ({
   hour,
   minutes,
   nightDay,
-  key,
 }) => {
   const [ct, setCt] = useState(false);
   useEffect(() => {

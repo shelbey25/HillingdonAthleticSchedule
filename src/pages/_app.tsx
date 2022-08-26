@@ -16,7 +16,7 @@ export default withTRPC<AppRouter>({
      */
     const url = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}/api/trpc`
-      : `https://hillingdon-athletic-schedule-shelbey25.vercel.app/api/trpc`;
+      : `http://localhost:3000/api/trpc`;
     return {
       url,
       /**
