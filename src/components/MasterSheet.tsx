@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { trpc } from "@/utils/trpc";
 import { Event } from "@prisma/client";
 import StringCell from "./cells/StringCell";
 import DateCell from "./cells/DateCell";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const MasterSheet = () => {
   const proportion = [25, 25, 25, 25];
@@ -11,7 +12,6 @@ const MasterSheet = () => {
   const addEvent = trpc.useMutation(["event.create"]);
 
   if (!data) return null;
-  console.log({ data });
 
   const addRow = async () => {
     await addEvent.mutateAsync();
@@ -75,8 +75,10 @@ const Row: React.FC<{ data: Event; refetch: () => void }> = ({
   data,
   refetch,
 }) => {
+  const [row, setRow] = useState(data);
   const deleteEvent = trpc.useMutation(["event.delete"]);
   const updateEvent = trpc.useMutation(["event.update"]);
+  const debouncedRow = useDebounce(row, 1000);
 
   const removeRow = async () => {
     await deleteEvent.mutateAsync({ id: data.id });
@@ -84,25 +86,44 @@ const Row: React.FC<{ data: Event; refetch: () => void }> = ({
   };
 
   const updateGroup = async (group: string) => {
-    await updateEvent.mutateAsync({ ...data, group });
-    refetch();
+    setRow((prev) => ({ ...prev, group }));
   };
 
   const updateLocation = async (location: string) => {
-    await updateEvent.mutateAsync({ ...data, location });
-    refetch();
+    setRow((prev) => ({ ...prev, location }));
   };
 
   const updateSidenote = async (sidenote: string) => {
-    await updateEvent.mutateAsync({ ...data, sidenote });
-    refetch();
+    setRow((prev) => ({ ...prev, sidenote }));
   };
 
   const updateDate = async (date: Date) => {
-    console.log(date);
-    await updateEvent.mutateAsync({ ...data, datetimedate: date });
+    setRow((prev) => ({ ...prev, date }));
+  };
+
+  // if row hasnt been modified for 1 second, fire off the mutation
+  const updateRow = async () => {
+    console.log("hey");
+    // check if row has been modified
+
+    if (
+      row.datetimedate.getTime() === data.datetimedate.getTime() &&
+      row.group === data.group &&
+      row.location === data.location &&
+      row.sidenote === data.sidenote
+    ) {
+      return;
+    }
+
+    console.log("off we pop");
+
+    await updateEvent.mutateAsync(debouncedRow);
     refetch();
   };
+
+  useEffect(() => {
+    updateRow();
+  }, [debouncedRow]);
 
   return (
     <div className="flex w-full justify-center">
@@ -115,19 +136,19 @@ const Row: React.FC<{ data: Event; refetch: () => void }> = ({
         </button>
       </div>
       <div className="flex justify-center" style={{ width: `${95}%` }}>
-        <StringCell value={data.group} percentage={25} setValue={updateGroup} />
+        <StringCell value={row.group} percentage={25} setValue={updateGroup} />
         <StringCell
-          value={data.sidenote}
+          value={row.sidenote}
           percentage={25}
           setValue={updateSidenote}
         />
         <StringCell
-          value={data.location}
+          value={row.location}
           percentage={25}
           setValue={updateLocation}
         />
         <DateCell
-          value={data.datetimedate}
+          value={row.datetimedate}
           percentage={25}
           setValue={updateDate}
         />
