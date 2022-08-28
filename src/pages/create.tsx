@@ -1,12 +1,17 @@
 import Link from "next/link";
 import MasterSheet from "../components/MasterSheet";
+import { Icon } from "@iconify/react";
 
 const Create = () => {
   return (
     <div className="flex w-full h-max bg-blue-700 p-4 min-h-screen">
       <div className="flex flex-col items-center justify-start w-full">
         <div className="flex w-full justify-between items-start">
-          <div className="w-1/5 flex"></div>
+          <button className="w-1/5 flex">
+            <Link href="/settings">
+              <Icon icon="ci:settings" className="w-14 h-14 text-white" />
+            </Link>
+          </button>
           <div className="w-3/5 justify-center flex flex-col gap-y-2">
             <h1 className="text-3xl smallTablet:text-5xl font-bold text-white font-jacobyLikes text-center">
               Hillingdon

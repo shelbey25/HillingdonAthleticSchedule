@@ -20,6 +20,30 @@ export const appRouter = trpc
           return prisma.event.findMany({ orderBy: [{ datetimedate: "asc" }] });
         },
       })
+      .query("otherLocation", {
+        resolve() {
+          return prisma.location.findMany();
+        },
+      })
+      .query("otherLocationNo", {
+        resolve() {
+          return prisma.location.findMany({ where: { important: false } });
+        },
+      })
+      .mutation("otherLocationAdd", {
+        input: z.object({
+          name: z.string(),
+          important: z.boolean(),
+        }),
+        async resolve({ input }) {
+          const addLocEventInDb = await prisma.location.create({
+            data: {
+              ...input,
+            },
+          });
+          return { success: true, addLocEvent: addLocEventInDb };
+        },
+      })
       .mutation("update", {
         input: z.object({
           id: z.number(),

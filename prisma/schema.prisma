@@ -13,9 +13,16 @@ datasource db {
 model Event {
   id Int @id @default(autoincrement())
 
-group String
-sidenote String
-location String
-datetimestring String
-datetimedate DateTime
+  group          String
+  sidenote       String
+  location       String
+  datetimestring String
+  datetimedate   DateTime
+  locationId     Int
+}
+
+model Location {
+  id        Int     @id @default(autoincrement())
+  name      String
+  important Boolean
 }

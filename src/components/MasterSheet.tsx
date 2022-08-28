@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react";
 import { trpc } from "@/utils/trpc";
 import { Event } from "@prisma/client";
 import StringCell from "./cells/StringCell";
+import DropDownCell from "./cells/DropDownCell";
 import DateCell from "./cells/DateCell";
 import { useDebounce } from "@/hooks/useDebounce";
 
@@ -79,7 +80,6 @@ const Row: React.FC<{ data: Event; refetch: () => void }> = ({
   const deleteEvent = trpc.useMutation(["event.delete"]);
   const updateEvent = trpc.useMutation(["event.update"]);
   const debouncedRow = useDebounce(row, 1000);
-
   const removeRow = async () => {
     await deleteEvent.mutateAsync({ id: data.id });
     refetch();
@@ -126,6 +126,17 @@ const Row: React.FC<{ data: Event; refetch: () => void }> = ({
     updateRow();
   }, [debouncedRow]);
 
+  const [drop, setDrop] = useState(false);
+  const [dropA, setDropA] = useState(false);
+  const baseLocations = [
+    "Hawks Gym",
+    "HLC",
+    "Iver",
+    "3G Pitch",
+    "Uxbridge College",
+  ];
+  const baseEvents = ["practice", "game", "try-out"];
+
   return (
     <div className="flex w-full justify-center">
       <div className="flex justify-end items-center" style={{ width: `${5}%` }}>
@@ -138,15 +149,21 @@ const Row: React.FC<{ data: Event; refetch: () => void }> = ({
       </div>
       <div className="flex justify-center" style={{ width: `${95}%` }}>
         <StringCell value={row.group} percentage={25} setValue={updateGroup} />
-        <StringCell
+        <DropDownCell
           value={row.sidenote}
           percentage={25}
           setValue={updateSidenote}
+          drop={dropA}
+          setDrop={setDropA}
+          baseLocations={baseEvents}
         />
-        <StringCell
+        <DropDownCell
           value={row.location}
           percentage={25}
           setValue={updateLocation}
+          drop={drop}
+          setDrop={setDrop}
+          baseLocations={baseLocations}
         />
         <DateCell
           value={row.datetimedate}
