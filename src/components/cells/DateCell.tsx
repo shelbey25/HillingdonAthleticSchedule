@@ -3,7 +3,6 @@ import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
-
 const DateCell: FC<{
   value: Date;
   percentage: number;

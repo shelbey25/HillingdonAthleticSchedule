@@ -115,7 +115,8 @@ const Row: React.FC<{ data: Event; refetch: () => void }> = ({
       return;
     }
 
-    console.log("off we pop");
+    console.log({ row });
+    console.log({ debouncedRow });
 
     await updateEvent.mutateAsync(debouncedRow);
     refetch();

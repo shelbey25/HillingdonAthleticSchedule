@@ -12,7 +12,12 @@ export const appRouter = trpc
       .router()
       .query("all", {
         resolve() {
-          return prisma.event.findMany();
+          return prisma.event.findMany({ orderBy: [{ id: "asc" }] });
+        },
+      })
+      .query("all-date", {
+        resolve() {
+          return prisma.event.findMany({ orderBy: [{ datetimedate: "asc" }] });
         },
       })
       .mutation("update", {

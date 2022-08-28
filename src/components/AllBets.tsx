@@ -4,6 +4,7 @@ import Standout from "./Standout";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Data from "./Data";
+import { trpc } from "@/utils/trpc";
 interface Props {}
 
 export interface Match {
@@ -24,7 +25,7 @@ interface allInfo {
 }
 
 const AllBets: React.FC<Props> = ({}) => {
-  const [data, setData] = useState([
+  const [data2, setData2] = useState([
     {
       location: "Farmer Gym",
       group: "JV Boys Basketball",
@@ -124,15 +125,16 @@ const AllBets: React.FC<Props> = ({}) => {
     November: 304,
     December: 334,
   };
-  const sortedData = [...data].sort(
+  const sortedData = [...data2].sort(
     (firstItem, secondItem) =>
       firstItem.date.getTime() - secondItem.date.getTime()
   );
+  const { data, refetch } = trpc.useQuery(["event.all-date"]);
   return (
     <div className="flex flex-col w-full allign-center justify-center">
       {data && (
         <div className="w-full">
-          <Data dataSet={sortedData} />
+          <Data dataSet={data} />
         </div>
       )}
     </div>

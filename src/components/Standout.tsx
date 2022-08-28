@@ -9,7 +9,7 @@ import {
 } from "react-icons/gi";
 import { Icon } from "@iconify/react";
 interface Props {
-  info: any;
+  info: smallInfo;
   search: string;
   check: LocationYesNo[];
   searchLocation: boolean;
@@ -20,7 +20,18 @@ interface Props {
   minutes: string;
   nightDay: string;
 }
-
+interface smallInfo {
+  location: string;
+  group: string;
+  month: string;
+  year: string;
+  day: string;
+  dayNight: string;
+  hour: string;
+  minute: string;
+  date: Date;
+  sideNote: string;
+}
 interface LocationYesNo {
   name: string;
   value: boolean;
