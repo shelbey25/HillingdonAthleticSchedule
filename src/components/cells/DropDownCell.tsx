@@ -1,15 +1,19 @@
+import { Sidenote, Location } from "@prisma/client";
+import { modifyRouteRegex } from "next/dist/lib/load-custom-routes";
 import React, { FC, useEffect, useState } from "react";
+import { GiModernCity } from "react-icons/gi";
 import DropDownItems from "./dropdown/DropDownItems";
 import DropDownSearch from "./dropdown/DropDownSearch";
 
 const DropDownCell: FC<{
   percentage: number;
-  value: string;
-  setValue: (value: string) => void;
+  value: string | undefined;
+  more: Location | Sidenote | null;
   drop: boolean;
   setDrop: (value: boolean) => void;
   baseLocations: string[];
-}> = ({ percentage, setValue, value, drop, setDrop, baseLocations }) => {
+  setObject: (value: string) => void;
+}> = ({ percentage, value, more, drop, setDrop, baseLocations, setObject }) => {
   const changeClick = () => {
     setDrop(!drop);
     setOtherDrop(false);
@@ -18,7 +22,7 @@ const DropDownCell: FC<{
     setOtherDrop(!otherDrop);
   };
   const putItHere = () => {
-    if (value === "") {
+    if (value === "" || value === undefined) {
       return "Select Location";
     } else {
       return value;
@@ -42,7 +46,8 @@ const DropDownCell: FC<{
             <div className="flex w-full flex-col">
               {baseLocations.map((baseLocation) => (
                 <DropDownItems
-                  setValue={setValue}
+                  setObject={setObject}
+                  more={more}
                   drop={drop}
                   setDrop={setDrop}
                   setOtherDrop={setOtherDrop}
@@ -76,7 +81,11 @@ const DropDownCell: FC<{
         </div>
         <div className="flex overflow-auto w-1/2 max-h-40">
           {otherDrop && (
-            <DropDownSearch changeClick={changeClick} setValue={setValue} />
+            <DropDownSearch
+              setObject={setObject}
+              changeClick={changeClick}
+              more={more}
+            />
           )}
         </div>
       </div>

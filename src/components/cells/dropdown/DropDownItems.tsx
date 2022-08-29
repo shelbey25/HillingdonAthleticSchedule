@@ -1,15 +1,19 @@
+import { Sidenote, Location } from "@prisma/client";
 import React, { FC } from "react";
 
 const DropDownItems: FC<{
-  setValue: (value: string) => void;
+  setObject: (value: string) => void;
+  more: Location | Sidenote | null;
   drop: boolean;
   setDrop: (value: boolean) => void;
   setOtherDrop: (value: boolean) => void;
   location: string;
-}> = ({ setValue, drop, setDrop, setOtherDrop, location }) => {
+}> = ({ setObject, more, drop, setDrop, setOtherDrop, location }) => {
   const opotacos = () => {
     setDrop(!drop);
-    setValue(location);
+    console.log("-");
+    console.log(location);
+    setObject(location);
     setOtherDrop(false);
   };
   return (

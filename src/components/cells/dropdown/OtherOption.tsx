@@ -6,7 +6,10 @@ const OtherOption: FC<{ location: String; search: String }> = ({
   location,
   search,
 }) => {
-  if (search === "" || location.toUpperCase().includes(search.toUpperCase())) {
+  if (
+    (search === "" || location.toUpperCase().includes(search.toUpperCase())) &&
+    location !== ""
+  ) {
     return (
       <div className="flex border-2 border-slate-800 p-1 w-full">
         <button className="flex w-full">

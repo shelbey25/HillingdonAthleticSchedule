@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { trpc } from "@/utils/trpc";
-import { Event } from "@prisma/client";
+import { Event, Sidenote, Location } from "@prisma/client";
 import StringCell from "./cells/StringCell";
 import DropDownCell from "./cells/DropDownCell";
 import DateCell from "./cells/DateCell";
@@ -72,14 +72,20 @@ const MasterSheet = () => {
 
 export default MasterSheet;
 
-const Row: React.FC<{ data: Event; refetch: () => void }> = ({
-  data,
-  refetch,
-}) => {
+const Row: React.FC<{
+  data: Event & {
+    sidenote: Sidenote | null;
+    location: Location | null;
+  };
+  refetch: () => void;
+}> = ({ data, refetch }) => {
   const [row, setRow] = useState(data);
   const deleteEvent = trpc.useMutation(["event.delete"]);
+  const [location, setLocation] = useState(data.sidenote?.name as string);
+  const [sidenote, setSidenote] = useState(data.location?.name as string);
   const updateEvent = trpc.useMutation(["event.update"]);
   const debouncedRow = useDebounce(row, 1000);
+
   const removeRow = async () => {
     await deleteEvent.mutateAsync({ id: data.id });
     refetch();
@@ -87,14 +93,6 @@ const Row: React.FC<{ data: Event; refetch: () => void }> = ({
 
   const updateGroup = async (group: string) => {
     setRow((prev) => ({ ...prev, group }));
-  };
-
-  const updateLocation = async (location: string) => {
-    setRow((prev) => ({ ...prev, location }));
-  };
-
-  const updateSidenote = async (sidenote: string) => {
-    setRow((prev) => ({ ...prev, sidenote }));
   };
 
   const updateDate = async (date: Date) => {
@@ -105,26 +103,32 @@ const Row: React.FC<{ data: Event; refetch: () => void }> = ({
   const updateRow = async () => {
     console.log("hey");
     // check if row has been modified
-
+    console.log(location);
     if (
       row.datetimedate.getTime() === data.datetimedate.getTime() &&
       row.group === data.group &&
-      row.location === data.location &&
-      row.sidenote === data.sidenote
+      location === data.location?.name &&
+      sidenote === data.sidenote?.name
     ) {
       return;
     }
 
     console.log({ row });
     console.log({ debouncedRow });
-
-    await updateEvent.mutateAsync(debouncedRow);
+    await updateEvent.mutateAsync({
+      id: debouncedRow.id,
+      group: debouncedRow.group,
+      sidenote: sidenote as string,
+      location: location as string,
+      datetimestring: debouncedRow.datetimestring,
+      datetimedate: debouncedRow.datetimedate,
+    });
     refetch();
   };
 
   useEffect(() => {
     updateRow();
-  }, [debouncedRow]);
+  }, [debouncedRow, sidenote, location]);
 
   const [drop, setDrop] = useState(false);
   const [dropA, setDropA] = useState(false);
@@ -150,20 +154,22 @@ const Row: React.FC<{ data: Event; refetch: () => void }> = ({
       <div className="flex justify-center" style={{ width: `${95}%` }}>
         <StringCell value={row.group} percentage={25} setValue={updateGroup} />
         <DropDownCell
-          value={row.sidenote}
+          value={sidenote}
+          more={row.sidenote}
           percentage={25}
-          setValue={updateSidenote}
           drop={dropA}
           setDrop={setDropA}
           baseLocations={baseEvents}
+          setObject={setSidenote}
         />
         <DropDownCell
-          value={row.location}
+          value={location}
+          more={row.location}
           percentage={25}
-          setValue={updateLocation}
           drop={drop}
           setDrop={setDrop}
           baseLocations={baseLocations}
+          setObject={setLocation}
         />
         <DateCell
           value={row.datetimedate}

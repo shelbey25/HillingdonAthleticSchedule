@@ -8,9 +8,26 @@ import CheckBox from "./CheckBox";
 import DateAndTime from "./DateAndTime";
 import type { Match } from "./AllBets";
 import SearchLocation from "./SearchLocation";
+import { Sidenote, Location, Event } from "@prisma/client";
+
+interface smallInfo {
+  location: string;
+  group: string;
+  month: string;
+  year: string;
+  day: string;
+  dayNight: string;
+  hour: string;
+  minute: string;
+  date: Date;
+  sideNote: string;
+}
 
 interface Props {
-  dataSet: allInfo[];
+  dataSet: (Event & {
+    sidenote: Sidenote | null;
+    location: Location | null;
+  })[];
 }
 
 interface allInfo {
@@ -149,7 +166,7 @@ const Data: React.FC<Props> = ({ dataSet }) => {
       {dataSet
         .map((dataItem) => [
           {
-            location: dataItem.location,
+            location: dataItem.location?.name,
             group: dataItem.group,
             month: monthThat[`${dataItem.datetimestring.substring(5, 7)}`],
             year: dataItem.datetimestring.substring(0, 4),
@@ -158,12 +175,12 @@ const Data: React.FC<Props> = ({ dataSet }) => {
             hour: hourThat[`${dataItem.datetimestring.substring(11, 13)}`],
             minute: dataItem.datetimestring.substring(14, 16),
             date: dataItem.datetimedate,
-            sideNote: dataItem.sidenote,
+            sideNote: dataItem.sidenote?.name,
           },
         ])
         .map((dataSmall, indexofdata) => (
           <Standout
-            info={dataSmall[0]}
+            info={dataSmall[0] as smallInfo}
             search={search}
             check={check}
             searchLocation={searchLocation}

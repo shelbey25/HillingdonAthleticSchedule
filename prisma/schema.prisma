@@ -14,14 +14,24 @@ model Event {
   id Int @id @default(autoincrement())
 
   group          String
-  sidenote       String
-  location       String
+  sidenote       Sidenote?  @relation(fields: [sidenoteId], references: [id])
+  sidenoteId     Int
+  location       Location? @relation(fields: [locationId], references: [id])
+  locationId     Int?
   datetimestring String
   datetimedate   DateTime
 }
 
 model Location {
   id        Int     @id @default(autoincrement())
-  name      String
+  name      String  @unique
   important Boolean
+  events    Event[]
+}
+
+model Sidenote {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  important Boolean
+  events    Event[]
 }

@@ -129,7 +129,7 @@ const AllBets: React.FC<Props> = ({}) => {
     (firstItem, secondItem) =>
       firstItem.date.getTime() - secondItem.date.getTime()
   );
-  const { data, refetch } = trpc.useQuery(["event.all-date"]);
+  const { data, refetch } = trpc.useQuery(["event.allByDate"]);
   return (
     <div className="flex flex-col w-full allign-center justify-center">
       {data && (
