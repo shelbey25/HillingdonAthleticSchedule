@@ -13,7 +13,17 @@ const DropDownCell: FC<{
   setDrop: (value: boolean) => void;
   baseLocations: string[];
   setObject: (value: string) => void;
-}> = ({ percentage, value, more, drop, setDrop, baseLocations, setObject }) => {
+  dataToFetch: "location" | "sidenote";
+}> = ({
+  percentage,
+  value,
+  more,
+  drop,
+  setDrop,
+  baseLocations,
+  setObject,
+  dataToFetch,
+}) => {
   const changeClick = () => {
     setDrop(!drop);
     setOtherDrop(false);
@@ -85,6 +95,7 @@ const DropDownCell: FC<{
               setObject={setObject}
               changeClick={changeClick}
               more={more}
+              dataToFetch={dataToFetch}
             />
           )}
         </div>

@@ -16,18 +16,4 @@ export const locationRouter = trpc
     resolve() {
       return prisma.location.findMany({ where: { important: false } });
     },
-  })
-  .mutation("create", {
-    input: z.object({
-      name: z.string(),
-      important: z.boolean(),
-    }),
-    async resolve({ input }) {
-      const addLocEventInDb = await prisma.location.create({
-        data: {
-          ...input,
-        },
-      });
-      return { success: true, addLocEvent: addLocEventInDb };
-    },
   });

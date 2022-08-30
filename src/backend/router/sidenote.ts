@@ -7,27 +7,13 @@ export const sidenoteRouter = trpc
   // SHEBE WHY IS THIS CALLED LOCATION WHEN IT HAS NOTHING TO DO WITH LOCATION?????????
   //Sorry it was easiest I was just temporary
 
-  .query("otherLocation", {
+  .query("all", {
     resolve() {
       return prisma.sidenote.findMany();
     },
   })
-  .query("otherLocationNo", {
+  .query("allNotImportant", {
     resolve() {
       return prisma.sidenote.findMany({ where: { important: false } });
-    },
-  })
-  .mutation("otherLocationAdd", {
-    input: z.object({
-      name: z.string(),
-      important: z.boolean(),
-    }),
-    async resolve({ input }) {
-      const addLocEventInDb = await prisma.sidenote.create({
-        data: {
-          ...input,
-        },
-      });
-      return { success: true, addLocEvent: addLocEventInDb };
     },
   });

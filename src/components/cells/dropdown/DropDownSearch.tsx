@@ -8,10 +8,12 @@ const DropDownSearch: FC<{
   setObject: (value: string) => void;
   changeClick: () => void;
   more: Location | Sidenote | null;
-}> = ({ setObject, changeClick, more }) => {
+  dataToFetch: "location" | "sidenote";
+}> = ({ setObject, changeClick, more, dataToFetch }) => {
   // okay shelbe this isnt the way to write a component like this. lemme help you out.
   // we are going to use something called generics. also why are you handling the updates here???
-  const { data, refetch } = trpc.useQuery(["location.all"]);
+
+  const { data, refetch } = trpc.useQuery([`${dataToFetch}.allNotImportant`]);
   const [search, setSearch] = useState("");
   const addMenu = async () => {
     changeClick();

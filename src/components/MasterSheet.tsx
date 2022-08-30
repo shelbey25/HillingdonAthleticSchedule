@@ -95,8 +95,8 @@ const Row: React.FC<{
     setRow((prev) => ({ ...prev, group }));
   };
 
-  const updateDate = async (date: Date) => {
-    setRow((prev) => ({ ...prev, date }));
+  const updateDate = async (datetimedate: Date, datetimestring: string) => {
+    setRow((prev) => ({ ...prev, datetimedate, datetimestring }));
   };
 
   // if row hasnt been modified for 1 second, fire off the mutation
@@ -161,6 +161,7 @@ const Row: React.FC<{
           setDrop={setDropA}
           baseLocations={baseEvents}
           setObject={setSidenote}
+          dataToFetch={"sidenote"}
         />
         <DropDownCell
           value={location}
@@ -170,9 +171,11 @@ const Row: React.FC<{
           setDrop={setDrop}
           baseLocations={baseLocations}
           setObject={setLocation}
+          dataToFetch={"location"}
         />
         <DateCell
           value={row.datetimedate}
+          valueS={row.datetimestring}
           percentage={25}
           setValue={updateDate}
         />
