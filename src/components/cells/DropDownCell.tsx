@@ -54,8 +54,9 @@ const DropDownCell: FC<{
         <div className="flex overflow-auto w-1/2 max-h-40 ">
           {drop && (
             <div className="flex w-full flex-col">
-              {baseLocations.map((baseLocation) => (
+              {baseLocations.map((baseLocation, indexT) => (
                 <DropDownItems
+                  key={indexT}
                   setObject={setObject}
                   more={more}
                   drop={drop}

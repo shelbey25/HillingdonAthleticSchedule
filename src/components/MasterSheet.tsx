@@ -13,7 +13,9 @@ const MasterSheet = () => {
   const addEvent = trpc.useMutation(["event.create"]);
 
   if (!data) return null;
-
+  console.log("***");
+  console.log(data);
+  console.log("***");
   const addRow = async () => {
     await addEvent.mutateAsync();
     refetch();
@@ -115,6 +117,14 @@ const Row: React.FC<{
 
     console.log({ row });
     console.log({ debouncedRow });
+    console.log({
+      id: debouncedRow.id,
+      group: debouncedRow.group,
+      sidenote: sidenote as string,
+      location: location as string,
+      datetimestring: debouncedRow.datetimestring,
+      datetimedate: debouncedRow.datetimedate,
+    });
     await updateEvent.mutateAsync({
       id: debouncedRow.id,
       group: debouncedRow.group,

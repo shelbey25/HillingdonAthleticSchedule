@@ -32,9 +32,13 @@ const DropDownSearch: FC<{
       <div className="flex w-full h-3/4 overflow-auto flex-col">
         {data && (
           <div>
-            {data.map((location) => (
+            {data.map((location, indexE) => (
               <div>
-                <OtherOption location={location.name} search={search} />
+                <OtherOption
+                  key={indexE}
+                  location={location.name}
+                  search={search}
+                />
               </div>
             ))}
           </div>
