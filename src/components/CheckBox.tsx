@@ -10,14 +10,13 @@ interface Props {
   check: LocationYesNo[];
   setCheck: any;
   location: string;
-  key: string;
 }
 interface LocationYesNo {
   name: string;
   value: boolean;
 }
 
-const CheckBox: React.FC<Props> = ({ location, check, setCheck, key }) => {
+const CheckBox: React.FC<Props> = ({ location, check, setCheck }) => {
   const checkChange = () => {
     const smallCheck = check.filter((indiv) => indiv.name !== location);
     for (let i = 0; i < check.length; i++) {
@@ -31,19 +30,25 @@ const CheckBox: React.FC<Props> = ({ location, check, setCheck, key }) => {
   return (
     <div className="flex space-x-2">
       <div className="flex w-full rounded-lg align-center place-items-center hover:drop-shadow-lg hover:shadow-black items-center bg-sky-200 border-2 border-black">
-        <button onClick={checkChange}>
+        <button onClick={checkChange} className="flex w-full">
           <div className="flex gap-x-2 items-center content-center">
-            {check.map((smallCheck) => {
+            {check.map((smallCheck, indic) => {
               if (smallCheck.name === location) {
                 if (smallCheck.value) {
                   return (
-                    <div className="place-content-center content-center h-full">
+                    <div
+                      className="place-content-center content-center h-full"
+                      key={indic}
+                    >
                       <CheckIcon className="self-center place-content-center w-11 h-11 text-green-800" />
                     </div>
                   );
                 } else {
                   return (
-                    <div className="content-center place-content-center">
+                    <div
+                      className="content-center place-content-center"
+                      key={indic}
+                    >
                       <XIcon className="self-center w-11 h-11 text-red-800 place-content-center" />
                     </div>
                   );

@@ -129,14 +129,24 @@ const AllBets: React.FC<Props> = ({}) => {
     (firstItem, secondItem) =>
       firstItem.date.getTime() - secondItem.date.getTime()
   );
-  const { data, refetch } = trpc.useQuery(["event.allByDate"]);
+  const [take, setTake] = useState(10);
+  //Add fetch with filter
+  const takeOroo = () => {
+    setTake(take + 10);
+  };
   return (
     <div className="flex flex-col w-full allign-center justify-center">
-      {data && (
-        <div className="w-full">
-          <Data dataSet={data} />
-        </div>
-      )}
+      <div className="w-full">
+        <Data take={take} />
+      </div>
+      <div className="pb-8 p-4 justify-center flex w-full">
+        <button
+          onClick={takeOroo}
+          className="p-2 rounded-lg text-white hover:bg-gray-500	bg-gray-800 divide-x-4 hover:shadow hover:shadow-black border-4 hover:border-bg-gray-800 border-bg-gray-400"
+        >
+          Load More Results
+        </button>
+      </div>
     </div>
   );
 };

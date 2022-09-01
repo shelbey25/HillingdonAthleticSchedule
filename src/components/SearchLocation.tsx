@@ -50,27 +50,26 @@ const SearchLocation: React.FC<Props> = ({
   return (
     <div className="flex flex-col w-full items-center gap-y-4">
       <div>
-        <button onClick={setTheSearch} className="flex items-center gap-x-4">
+        <button
+          onClick={setTheSearch}
+          className="flex items-center gap-x-4 w-full"
+        >
           <div className="flex items-center gap-x-4 bg-sky-200 rounded-lg pr-8 pl-4 pt-2 pb-2 border-2 border-black hover:drop-shadow-lg hover:shadow-black">
             {searchLocation ? (
               <div className="place-items-center flex">
-                <button onClick={setTheSearch}>
-                  <ArrowCircleDownIcon className="h-14 w-14 text-blue-700" />
-                </button>
+                <ArrowCircleDownIcon className="h-14 w-14 text-blue-700" />
               </div>
             ) : (
               <div className="place-items-center flex">
-                <button onClick={setTheSearch}>
-                  <ArrowCircleRightIcon className="h-14 w-14 text-blue-700" />
-                </button>
+                <ArrowCircleRightIcon className="h-14 w-14 text-blue-700" />
               </div>
             )}
-            <button
+            <div
               onClick={setTheSearch}
               className="text-center text-blue-700 font-bold"
             >
               Search Location
-            </button>
+            </div>
           </div>
         </button>
       </div>

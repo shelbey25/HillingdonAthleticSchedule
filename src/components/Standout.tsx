@@ -81,56 +81,49 @@ const Standout: React.FC<Props> = ({
       nightDay === "Neither")
   ) {
     if (ct || !searchLocation) {
-      if (
-        search === "" ||
-        info.group.toUpperCase().includes(search.toUpperCase())
-      ) {
-        return (
-          <div className="flex items-center justify-start w-full bg-white rounded-lg border-2 border-black p-2">
-            <div className="flex flex-wrap items-center w-full justify-between gap-y-2">
-              <div
-                className="flex flex-col tablet:flex-row justify-start"
-                style={{ width: `${600 / 15}%` }}
-              >
-                <h1 className="font-bold text-base tablet:text-xl text-start text-blue-700 font-bold">
-                  {info.group}
-                </h1>
-                <h1 className="justify-center items-center pl-0 inline-block align-middle pt-1 tablet:pt-0 tablet:pl-4 italic text-base tablet:text-xl text-start text-slate-500 font-bold">
-                  {info.sideNote}
-                </h1>
-              </div>
+      return (
+        <div className="flex items-center justify-start w-full bg-white rounded-lg border-2 border-black p-2">
+          <div className="flex flex-wrap items-center w-full justify-between gap-y-2">
+            <div
+              className="flex flex-col tablet:flex-row justify-start"
+              style={{ width: `${600 / 15}%` }}
+            >
+              <h1 className="font-bold text-base tablet:text-xl text-start text-blue-700 font-bold">
+                {info.group}
+              </h1>
+              <h1 className="justify-center items-center pl-0 inline-block align-middle pt-1 tablet:pt-0 tablet:pl-4 italic text-base tablet:text-xl text-start text-slate-500 font-bold">
+                {info.sideNote}
+              </h1>
+            </div>
 
-              <div
-                className="flex justify-start"
-                style={{ width: `${200 / 15}%` }}
-              >
-                <h1 className="text-base tablet:text-xl pl-1 text-start text-blue-700 font-bold">
-                  {info.month.substring(0, 3)} {info.day}
-                </h1>
-              </div>
-              <div
-                className="flex pl-8 justify-start"
-                style={{ width: `${400 / 15}%` }}
-              >
-                <h1 className="text-base tablet:text-xl text-start text-blue-700 font-bold">
-                  {dayWeek[`${info.date.getDay().toString()}`].substring(0, 3)}{" "}
-                  - {info.hour}:{info.minute} {info.dayNight}
-                </h1>
-              </div>
-              <div
-                className="flex justify-start"
-                style={{ width: `${300 / 15}%` }}
-              >
-                <h1 className="pl-1 text-base tablet:text-xl text-start text-blue-700 font-bold text-clip overflow-hidden">
-                  {info.location}
-                </h1>
-              </div>
+            <div
+              className="flex justify-start"
+              style={{ width: `${200 / 15}%` }}
+            >
+              <h1 className="text-base tablet:text-xl pl-1 text-start text-blue-700 font-bold">
+                {info.month.substring(0, 3)} {info.day}
+              </h1>
+            </div>
+            <div
+              className="flex pl-8 justify-start"
+              style={{ width: `${400 / 15}%` }}
+            >
+              <h1 className="text-base tablet:text-xl text-start text-blue-700 font-bold">
+                {dayWeek[`${info.date.getDay().toString()}`].substring(0, 3)} -{" "}
+                {info.hour}:{info.minute} {info.dayNight}
+              </h1>
+            </div>
+            <div
+              className="flex justify-start"
+              style={{ width: `${300 / 15}%` }}
+            >
+              <h1 className="pl-1 text-base tablet:text-xl text-start text-blue-700 font-bold text-clip overflow-hidden">
+                {info.location}
+              </h1>
             </div>
           </div>
-        );
-      } else {
-        return null;
-      }
+        </div>
+      );
     } else {
       return null;
     }

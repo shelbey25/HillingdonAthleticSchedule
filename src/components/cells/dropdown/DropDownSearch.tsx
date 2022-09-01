@@ -36,6 +36,9 @@ const DropDownSearch: FC<{
               <div>
                 <OtherOption
                   key={indexE}
+                  changeClick={changeClick}
+                  refetch={refetch}
+                  setObject={setObject}
                   location={location.name}
                   search={search}
                 />

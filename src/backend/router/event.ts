@@ -5,7 +5,7 @@ import { prisma } from "@/backend/utils/prisma";
 export const eventRouter = trpc
   .router()
   .query("all", {
-    resolve() {
+    async resolve() {
       return prisma.event.findMany({
         orderBy: [{ id: "asc" }],
         include: { location: true, sidenote: true },
@@ -13,10 +13,42 @@ export const eventRouter = trpc
     },
   })
   .query("allByDate", {
-    resolve() {
+    input: z.object({
+      take: z.number(),
+      search: z.string(),
+      year: z.string(),
+      month: z.string(),
+      day: z.string(),
+    }),
+    async resolve({ input }) {
+      const { take, search, year, month, day } = input;
       return prisma.event.findMany({
         orderBy: [{ datetimedate: "asc" }],
         include: { location: true, sidenote: true },
+        take: take,
+        where: {
+          AND: [
+            { OR: [{ group: "" }, { group: { contains: search } }] },
+            {
+              OR: [
+                { datetimestring: "" },
+                { datetimestring: { contains: year } },
+              ],
+            },
+            {
+              OR: [
+                { datetimestring: "" },
+                { datetimestring: { contains: month } },
+              ],
+            },
+            {
+              OR: [
+                { datetimestring: "" },
+                { datetimestring: { contains: day } },
+              ],
+            },
+          ],
+        },
       });
     },
   })
@@ -32,7 +64,7 @@ export const eventRouter = trpc
     async resolve({ input }) {
       const { id, location, sidenote, ...rest } = input;
       const modEventInDb = await prisma.event.update({
-        where: { id },
+        where: { id: id },
         data: {
           ...rest,
           sidenote: {
