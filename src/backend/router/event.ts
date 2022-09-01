@@ -1,7 +1,10 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 import { prisma } from "@/backend/utils/prisma";
-
+/*OR: [
+                { datetimestring: "" },
+                { datetimestring: { contains: year } },
+              ],*/
 export const eventRouter = trpc
   .router()
   .query("all", {
@@ -19,33 +22,27 @@ export const eventRouter = trpc
       year: z.string(),
       month: z.string(),
       day: z.string(),
+      yes: z.boolean(),
     }),
     async resolve({ input }) {
-      const { take, search, year, month, day } = input;
+      const { take, search, year, month, day, yes } = input;
       return prisma.event.findMany({
         orderBy: [{ datetimedate: "asc" }],
         include: { location: true, sidenote: true },
         take: take,
         where: {
           AND: [
-            { OR: [{ group: "" }, { group: { contains: search } }] },
+            { group: { contains: search } },
             {
-              OR: [
-                { datetimestring: "" },
-                { datetimestring: { contains: year } },
-              ],
-            },
-            {
-              OR: [
-                { datetimestring: "" },
-                { datetimestring: { contains: month } },
-              ],
-            },
-            {
-              OR: [
-                { datetimestring: "" },
-                { datetimestring: { contains: day } },
-              ],
+              OR: {
+                AND: [
+                  { datetimestring: { contains: year } },
+
+                  { datetimestring: { contains: month } },
+
+                  { datetimestring: { contains: day } },
+                ],
+              },
             },
           ],
         },
