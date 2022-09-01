@@ -7,6 +7,8 @@ import CheckBox from "./CheckBox";
 import AllBets from "../components/AllBets";
 import Data from "./Data";
 interface Props {
+  setValueModded: (value: boolean) => void;
+  valueModded: boolean;
   setDay: any;
   day: string;
   setMonth: any;
@@ -24,6 +26,8 @@ interface Props {
 }
 
 const SearchLocation: React.FC<Props> = ({
+  setValueModded,
+  valueModded,
   setDay,
   day,
   setMonth,
@@ -71,80 +75,33 @@ const SearchLocation: React.FC<Props> = ({
       }
     }
   };
+  const dateValue = () => {};
+  const whenChanged = (date: string) => {
+    console.log(date);
+    setYear(date.substring(0, 4));
+    setMonth(date.substring(5, 7));
+    setDay(date.substring(8, 10));
+    setVal(date);
+    console.log(date.substring(0, 4));
+    console.log(date.substring(5, 7));
+    console.log(date.substring(8, 10));
+    setValueModded(true);
+  };
+  const [val, setVal] = useState("2022-12-30");
 
   return (
     <div className="flex flex-wrap w-full items-center justify-center">
-      <div className="flex p-2 w-[33%] min-w-[20rem] justify-between">
+      <div className="flex w-[20%] min-w-[18rem] p-2">
         <input
-          className="flex w-[47.5%] bg-sky-200 hover:shadow hover:shadow-black rounded-sm p-2 border-2 border-black text-blue-700 font-bold"
-          type="text"
-          placeholder="Hour"
-          value={hour}
-          onChange={(e) => setHour(e.target.value)}
-        />
-        <h1 className="text-4xl text-white flex w-[5%] text-center justify-center">
-          :
-        </h1>
+          className="flex w-full justify-between gap-x-2 p-2"
+          type="date"
+          value={val}
+          onChange={(e) => whenChanged(e.target.value)}
+        ></input>
         <input
-          className="flex w-[47.5%] bg-sky-200 hover:shadow hover:shadow-black rounded-sm p-2 border-2 border-black text-blue-700 font-bold"
-          type="text"
-          placeholder="Minutes"
-          value={minutes}
-          onChange={(e) => setMinutes(e.target.value)}
-        />
-      </div>
-
-      <div className="flex p-2 w-[14%] min-w-[15rem] allign-center justify-between">
-        <button
-          onClick={dayset}
-          className={nightDay === "AM" ? "font-bold" : "font-normal"}
-        >
-          <div className="rounded-lg bg-sky-200 border-black border-2 p-2 hover:shadow hover:shadow-black">
-            <div className="text-blue-700">AM</div>
-          </div>
-        </button>
-        <button
-          onClick={night}
-          className={nightDay === "PM" ? "font-bold" : "font-normal"}
-        >
-          <div className="rounded-lg p-2 bg-sky-200 border-black border-2 hover:shadow hover:shadow-black">
-            <div className="text-blue-700">PM</div>
-          </div>
-        </button>
-        <button
-          onClick={undecided}
-          className={nightDay === "Neither" ? "font-bold" : "font-normal"}
-        >
-          <div className="rounded-lg p-2 bg-sky-200 border-black border-2 hover:shadow hover:shadow-black">
-            <div className="text-blue-700">Either</div>
-          </div>
-        </button>
-      </div>
-
-      <div className="flex w-[47%] min-w-[20rem] p-2">
-        <form className="flex w-full justify-between gap-x-2">
-          <input
-            className="bg-sky-200 hover:shadow hover:shadow-black rounded-sm p-2 border-2 border-black flex w-1/3 text-blue-700 font-bold"
-            type="text"
-            placeholder="Year"
-            value={year}
-            onChange={(e) => setYear(e.target.value)}
-          />
-          <input
-            className="bg-sky-200 hover:shadow hover:shadow-black rounded-sm p-2 border-2 border-black flex w-1/3 text-blue-700 font-bold"
-            type="text"
-            placeholder="Month"
-            value={month}
-            onChange={(e) => setMonth(e.target.value)}
-          />
-          <input
-            className="bg-sky-200 hover:shadow hover:shadow-black rounded-sm p-2 border-2 border-black flex w-1/3 text-blue-700 font-bold"
-            type="text"
-            placeholder="Day"
-            value={day}
-            onChange={(e) => setDay(e.target.value)}
-          />
-        </form>
+          type="checkbox"
+          onClick={(e) => setValueModded(!valueModded)}
+        ></input>
       </div>
     </div>
   );

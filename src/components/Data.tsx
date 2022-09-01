@@ -68,7 +68,7 @@ const Data: React.FC<Props> = ({ take }) => {
     { name: "Primrose Hill" },
     { name: "Weight Room" },
   ]);
-
+  const [valueModded, setValueModded] = useState(false);
   return (
     <div className="p-2 w-full flex flex-col items-center gap-2">
       <SearchBar search={search} setSearch={setSearch} />
@@ -83,6 +83,8 @@ const Data: React.FC<Props> = ({ take }) => {
       />
 
       <DateAndTime
+        setValueModded={setValueModded}
+        valueModded={valueModded}
         day={day}
         setDay={setDay}
         month={month}
@@ -109,6 +111,7 @@ const Data: React.FC<Props> = ({ take }) => {
         month={month}
         check={check}
         searchLocation={searchLocation}
+        yes={valueModded}
       />
     </div>
   );

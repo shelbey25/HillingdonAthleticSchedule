@@ -34,15 +34,18 @@ export const eventRouter = trpc
           AND: [
             { group: { contains: search } },
             {
-              OR: {
-                AND: [
-                  { datetimestring: { contains: year } },
+              OR: [
+                {
+                  AND: [
+                    { datetimestring: { contains: year } },
 
-                  { datetimestring: { contains: month } },
+                    { datetimestring: { contains: month } },
 
-                  { datetimestring: { contains: day } },
-                ],
-              },
+                    { datetimestring: { contains: day } },
+                  ],
+                },
+                { (!yes) },
+              ],
             },
           ],
         },
