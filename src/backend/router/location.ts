@@ -16,4 +16,55 @@ export const locationRouter = trpc
     resolve() {
       return prisma.location.findMany({ where: { important: false } });
     },
+  })
+  .query("allRise", {
+    resolve() {
+      return prisma.location.findMany({
+        orderBy: [{ id: "asc" }],
+        where: { important: true },
+      });
+    },
+  })
+  .mutation("create", {
+    resolve() {
+      return prisma.location.create({
+        data: {
+          name: "",
+          important: true,
+          events: undefined,
+        },
+      });
+    },
+  })
+  .mutation("deleteUsYeetus", {
+    input: z.object({
+      id: z.number(),
+    }),
+    async resolve({ input }) {
+      const { id } = input;
+      const removeLocoInDb = await prisma.location.deleteMany({
+        where: {
+          id: id,
+        },
+      });
+      return { success: true, deleteLoci: removeLocoInDb };
+    },
+  })
+  .mutation("update", {
+    input: z.object({
+      id: z.number(),
+      name: z.string(),
+      important: z.boolean(),
+    }),
+    async resolve({ input }) {
+      const { id, ...rest } = input;
+      const modEventInDb = await prisma.location.update({
+        where: { id: id },
+        data: {
+          ...rest,
+          events: undefined,
+        },
+      });
+      return { success: true, modLoco: modEventInDb };
+    },
   });
