@@ -44,7 +44,7 @@ export const eventRouter = trpc
                     { datetimestring: { contains: day } },
                   ],
                 },
-                { (!yes) },
+                /*{ (!yes) },*/
               ],
             },
           ],
