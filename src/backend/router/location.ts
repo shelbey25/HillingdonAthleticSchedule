@@ -25,6 +25,14 @@ export const locationRouter = trpc
       });
     },
   })
+  .query("allRisePopular", {
+    resolve() {
+      return prisma.location.findMany({
+        orderBy: [{ id: "asc" }],
+        where: { important: true },
+      });
+    },
+  })
   .mutation("create", {
     resolve() {
       return prisma.location.create({

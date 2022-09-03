@@ -150,7 +150,7 @@ const Row: React.FC<{
     "Uxbridge College",
   ];
   const baseEvents = ["practice", "game", "try-out"];
-
+  //Check if this is right in morning
   return (
     <div className="flex w-full justify-center">
       <div className="flex justify-end items-center" style={{ width: `${5}%` }}>
@@ -169,7 +169,6 @@ const Row: React.FC<{
           percentage={25}
           drop={dropA}
           setDrop={setDropA}
-          baseLocations={baseEvents}
           setObject={setSidenote}
           dataToFetch={"sidenote"}
         />
@@ -179,7 +178,6 @@ const Row: React.FC<{
           percentage={25}
           drop={drop}
           setDrop={setDrop}
-          baseLocations={baseLocations}
           setObject={setLocation}
           dataToFetch={"location"}
         />

@@ -111,10 +111,10 @@ export const eventRouter = trpc
             connectOrCreate: {
               create: {
                 important: false,
-                name: "",
+                name: "*$#*/**",
               },
               where: {
-                name: "",
+                name: "*$#*/**",
               },
             },
           },
@@ -122,10 +122,10 @@ export const eventRouter = trpc
             connectOrCreate: {
               create: {
                 important: false,
-                name: "",
+                name: "*$#*/**",
               },
               where: {
-                name: "",
+                name: "*$#*/**",
               },
             },
           },
