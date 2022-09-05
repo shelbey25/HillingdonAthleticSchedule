@@ -18,7 +18,7 @@ export default function IndexPage() {
           <div className="w-1/5 flex"></div>
           <div className="w-3/5 justify-center flex flex-col gap-y-2">
             <h1 className="text-3xl smallTablet:text-5xl font-bold text-white font-jacobyLikes text-center">
-              Hillingdon
+              Blank
             </h1>
             <h1 className="text-3xl smallTablet:text-5xl font-bold text-white font-jacobyLikes text-center">
               Sports And Activities

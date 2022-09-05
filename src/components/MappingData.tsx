@@ -5,15 +5,15 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Data from "./Data";
 import { trpc } from "@/utils/trpc";
-interface Props {}
 
 export interface Match {
   schedule: string;
 }
-interface LocationYesNo {
+export interface LocationYesNo {
   name: string;
   value: boolean;
 }
+
 interface smallInfo {
   location: string;
   group: string;
@@ -92,8 +92,13 @@ const MappingData: React.FC<Props> = ({
     },
   ]);
   useEffect(() => {
+    console.log("-");
+    console.log(yes);
+    console.log(year);
+    console.log(month);
+    console.log(day);
     refetch();
-  }, [take]);
+  }, [take, yes, day, month, year]);
   const monthThat: { [index: string]: string } = {
     "1": "January",
     "2": "February",
@@ -160,10 +165,15 @@ const MappingData: React.FC<Props> = ({
     "22": "pm",
     "23": "pm",
   };
+  const co = (a: any) => {
+    console.log(a);
+    return null;
+  };
   return (
     <div className="flex flex-col w-full allign-center justify-center gap-2">
       {data && (
         <div className="flex flex-col w-full allign-center justify-center gap-2">
+          <div>{co(data)}</div>
           {data
             .map((dataItem) => [
               {
@@ -181,19 +191,24 @@ const MappingData: React.FC<Props> = ({
               },
             ])
             .map((dataSmall, indexofdata) => (
-              <Standout
-                info={dataSmall[0] as smallInfo}
-                search={search}
-                check={check}
-                searchLocation={searchLocation}
-                day={day}
-                month={month}
-                year={year}
-                minutes={minutes}
-                hour={hour}
-                nightDay={nightDay}
-                key={data[indexofdata].id}
-              />
+              <div key={data[indexofdata].id}>
+                <div>
+                  {co([data[indexofdata], take, yes, search, month, day, year])}
+                </div>
+                <Standout
+                  info={dataSmall[0] as smallInfo}
+                  search={search}
+                  check={check}
+                  searchLocation={searchLocation}
+                  day={day}
+                  month={month}
+                  year={year}
+                  minutes={minutes}
+                  hour={hour}
+                  nightDay={nightDay}
+                  key={data[indexofdata].id}
+                />
+              </div>
             ))}
         </div>
       )}

@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
-import superjson from 'superjson'
+import superjson from "superjson";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;

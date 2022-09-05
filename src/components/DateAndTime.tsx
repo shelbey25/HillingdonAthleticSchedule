@@ -82,25 +82,24 @@ const SearchLocation: React.FC<Props> = ({
     setMonth(date.substring(5, 7));
     setDay(date.substring(8, 10));
     setVal(date);
-    console.log(date.substring(0, 4));
-    console.log(date.substring(5, 7));
-    console.log(date.substring(8, 10));
-    setValueModded(true);
   };
   const [val, setVal] = useState("2022-12-30");
 
   return (
     <div className="flex flex-wrap w-full items-center justify-center">
-      <div className="flex w-[20%] min-w-[18rem] p-2">
+      <div className="flex w-[20%] min-w-[18rem] p-2 gap-x-2">
+        <div className="border-2 border-white flex h-full">
+          <input
+            type="checkbox"
+            onClick={(e) => setValueModded(!valueModded)}
+            className="h-9 w-9 rounded-lg border-8 border-white"
+          ></input>
+        </div>
         <input
-          className="flex w-full justify-between gap-x-2 p-2"
+          className="flex w-full justify-between gap-x-2 p-2 h-10 rounded-lg"
           type="date"
           value={val}
           onChange={(e) => whenChanged(e.target.value)}
-        ></input>
-        <input
-          type="checkbox"
-          onClick={(e) => setValueModded(!valueModded)}
         ></input>
       </div>
     </div>
