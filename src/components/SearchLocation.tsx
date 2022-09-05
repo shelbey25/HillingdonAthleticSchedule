@@ -76,7 +76,7 @@ const SearchLocation: React.FC<Props> = ({
 
       {searchLocation ? (
         <div className="flex justify-center">
-          <div className="flex flex-wrap justify-center w-full grid desktop:grid-cols-2 laptop:grid-cols-6 inbetween:grid-cols-5 tablet:grid-cols-4 smallTablet:grid-cols-3 miniTablet:grid-cols-2 grid-cols-2 gap-4">
+          <div className="flex flex-wrap justify-center w-full grid desktop:grid-cols-3 laptop:grid-cols-2 inbetween:grid-cols-5 tablet:grid-cols-4 smallTablet:grid-cols-3 miniTablet:grid-cols-2 grid-cols-2 gap-4">
             {locations.map((location) => (
               <CheckBox
                 location={location.name}
