@@ -14,7 +14,7 @@ const MasterSheet = () => {
 
   if (!data) return null;
   console.log("***");
-  console.log(data);
+
   console.log("***");
   const addRow = async () => {
     await addEvent.mutateAsync();
@@ -81,10 +81,12 @@ const Row: React.FC<{
   };
   refetch: () => void;
 }> = ({ data, refetch }) => {
+  console.log("))");
+  console.log(data.location);
   const [row, setRow] = useState(data);
   const deleteEvent = trpc.useMutation(["event.delete"]);
-  const [location, setLocation] = useState(data.sidenote?.name as string);
-  const [sidenote, setSidenote] = useState(data.location?.name as string);
+  const [location, setLocation] = useState(data.location?.name as string);
+  const [sidenote, setSidenote] = useState(data.sidenote?.name as string);
   const updateEvent = trpc.useMutation(["event.update"]);
   const debouncedRow = useDebounce(row, 1000);
 
@@ -103,7 +105,7 @@ const Row: React.FC<{
 
   // if row hasnt been modified for 1 second, fire off the mutation
   const updateRow = async () => {
-    console.log("hey");
+    console.log("blurt");
     // check if row has been modified
     console.log(location);
     if (
