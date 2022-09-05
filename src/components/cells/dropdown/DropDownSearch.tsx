@@ -33,7 +33,7 @@ const DropDownSearch: FC<{
         {data && (
           <div>
             {data.map((location, indexE) => (
-              <div>
+              <div key={indexE}>
                 <OtherOption
                   key={indexE}
                   changeClick={changeClick}
