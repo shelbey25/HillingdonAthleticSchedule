@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import AllBets from "../components/AllBets";
 import Data from "./Data";
+import MasterSheet from "./MasterSheet";
 interface Props {}
 
 const Master: React.FC<Props> = ({}) => {
