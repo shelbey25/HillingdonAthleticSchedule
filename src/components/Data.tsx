@@ -132,6 +132,7 @@ const Data: React.FC<Props> = ({ take }) => {
   return (
     <div className="p-2 w-full flex flex-col items-center gap-2">
       <div className="flex w-full items-start">
+        <div>Test</div>
         <div className="w-1/3">
           <SearchBar search={search} setSearch={setSearch} />
         </div>

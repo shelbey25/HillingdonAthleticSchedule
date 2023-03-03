@@ -32,7 +32,6 @@ export default function IndexPage() {
           </div>
         </div>
         <div className="w-full">
-          <h1>Test</h1>
           <AllBets />
         </div>
       </div>
