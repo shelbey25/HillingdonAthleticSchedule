@@ -15,48 +15,7 @@ const MasterSheet = () => {
     await addEvent.mutateAsync();
     refetch();
   };
-  if (!data) {return (
-    <div className="flex flex-col w-full">
-      <div className="p-4 justify-center w-full flex flex-col">
-        <div className="flex w-full justify-end">
-          <div className="flex justify-end" style={{ width: `${95}%` }}>
-            <div
-              className="flex bg-slate-200 border-2  border-slate-800 p-1"
-              style={{ width: `${proportion[0]}%` }}
-            >
-              <h1 className="flex flex-wrap">Group</h1>
-            </div>
-            <div
-              className="flex bg-slate-200 border-2  border-slate-800 p-1"
-              style={{ width: `${proportion[1]}%` }}
-            >
-              <h1 className="flex flex-wrap">Event</h1>
-            </div>
-            <div
-              className="flex bg-slate-200 border-2  border-slate-800 p-1"
-              style={{ width: `${proportion[2]}%` }}
-            >
-              <h1 className="flex flex-wrap">Location</h1>
-            </div>
-            <div
-              className="flex bg-slate-200 border-2  border-slate-800 p-1"
-              style={{ width: `${proportion[3]}%` }}
-            >
-              <h1 className="flex flex-wrap">Date and Time</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="w-full flex justify-center">
-        <button onClick={() => addRow()}>
-          <Icon
-            icon="ant-design:plus-circle-twotone"
-            className="w-28 h-28 text-lime-600"
-          />
-        </button>
-      </div>
-    </div>
+  if (!data) {return (null
   )};
   console.log("***");
 
