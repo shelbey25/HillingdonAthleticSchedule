@@ -11,6 +11,7 @@ import SearchLocation from "./SearchLocation";
 import { Sidenote, Location, Event } from "@prisma/client";
 import MappingData, { LocationYesNo } from "./MappingData";
 import { trpc } from "@/utils/trpc";
+import { getSystemErrorMap } from "util";
 
 interface smallInfo {
   location: string;
@@ -127,7 +128,7 @@ const Data: React.FC<Props> = ({ take }) => {
       )
     );
   }, [data]);
-  if (!data) return null;
+  if (!data) {console.log("HELP!"); return(null) };
 
   return (
     <div className="p-2 w-full flex flex-col items-center gap-2">
