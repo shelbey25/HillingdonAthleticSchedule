@@ -11,7 +11,10 @@ const MasterSheet = () => {
   const proportion = [25, 25, 25, 25];
   const { data, refetch } = trpc.useQuery(["event.all"]);
   const addEvent = trpc.useMutation(["event.create"]);
-
+  const addRow = async () => {
+    await addEvent.mutateAsync();
+    refetch();
+  };
   if (!data) {return (
     <div className="flex flex-col w-full">
       <div className="p-4 justify-center w-full flex flex-col">
@@ -58,10 +61,7 @@ const MasterSheet = () => {
   console.log("***");
 
   console.log("***");
-  const addRow = async () => {
-    await addEvent.mutateAsync();
-    refetch();
-  };
+  
 
   return (
     <div className="flex flex-col w-full">
